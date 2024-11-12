@@ -108,7 +108,7 @@ class S3MultipartUpload<T : OutputStream>(
     }
 
     private suspend fun uploadPart() {
-        streamProcessor.partFinisher.invoke(wrappingBuffer)
+        wrappingBuffer.flush()
         val partNumber = uploadedParts.size + 1
         val request = UploadPartRequest {
             uploadId = response.uploadId
@@ -128,6 +128,7 @@ class S3MultipartUpload<T : OutputStream>(
     }
 
     private suspend fun complete() {
+        streamProcessor.partFinisher.invoke(wrappingBuffer)
         if (underlyingBuffer.size() > 0) {
             uploadPart()
         }

@@ -96,13 +96,14 @@ class ObjectStorageStreamLoader<T : RemoteObject<*>, U : OutputStream>(
         state.addObject(stream.generationId, key, partNumber)
 
         val metadata = ObjectStorageDestinationState.metadataFor(stream)
+        // var writeTime = 0L
         val obj =
             client.streamingUpload(key, metadata, streamProcessor = compressor) { outputStream ->
                 writerFactory.create(stream, outputStream).use { writer ->
                     records.forEach { writer.accept(it) }
                 }
             }
-        log.info { "Finished writing records to $key" }
+        // log.info { "Finished writing records to $key (total write time ${writeTime}ms)" }
         return if (pathFactory.supportsStaging) {
             StagedObject(remoteObject = obj, partNumber = partNumber)
         } else {
