@@ -59,7 +59,6 @@ abstract class S3V2WriteTest(
         super.testAppend()
     }
 
-    @Disabled("append mode doesn't yet work")
     @Test
     override fun testAppendSchemaEvolution() {
         super.testAppendSchemaEvolution()
@@ -80,19 +79,16 @@ abstract class S3V2WriteTest(
         super.testUnions()
     }
 
-    @Disabled("connector doesn't yet do refreshes correctly - data from failed sync is lost")
     @Test
     override fun testInterruptedTruncateWithPriorData() {
         super.testInterruptedTruncateWithPriorData()
     }
 
-    @Disabled("connector doesn't yet do refreshes correctly - failed sync deletes old data")
     @Test
     override fun resumeAfterCancelledTruncate() {
         super.resumeAfterCancelledTruncate()
     }
 
-    @Disabled("connector doesn't yet do refreshes correctly - failed sync deletes old data")
     @Test
     override fun testInterruptedTruncateWithoutPriorData() {
         super.testInterruptedTruncateWithoutPriorData()
@@ -151,13 +147,7 @@ class S3V2WriteTestCsvRootLevelFlattening :
         promoteUnionToObject = false,
         preserveUndeclaredFields = false,
         allTypesBehavior = Untyped,
-    ) {
-    @Disabled("Does not work yet")
-    @Test
-    override fun testBasicTypes() {
-        super.testBasicTypes()
-    }
-}
+    )
 
 class S3V2WriteTestCsvGzip :
     S3V2WriteTest(
